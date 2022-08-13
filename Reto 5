@@ -1,0 +1,127 @@
+consulta 1
+public void primerconsulta(DefaultTableModel modelo){
+        
+        
+        Lider lider = new Lider();
+        
+        
+        try {
+            Conexion cc = new Conexion();
+            Connection cn = cc.conectar();
+            
+            Statement st = cn.createStatement();
+            
+            ResultSet rs = st.executeQuery("SELECT ID_Lider, Nombre, Primer_Apellido, Ciudad_Residencia FROM Lider ORDER BY Ciudad_Residencia");
+            
+            
+            while(rs.next()){
+                
+                lider.setId_lider(rs.getInt(1));
+                lider.setNombre(rs.getString(2));
+                lider.setPrimer_apellido(rs.getString(3));
+                lider.setCiudad_residencia(rs.getString(4));
+
+              modelo.addRow(new Object[]{lider.getId_lider(), lider.getNombre(), lider.getPrimer_apellido(),lider.getCiudad_residencia()});
+ 
+            }
+            
+            
+            rs.close();
+            cn.close();
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(PrimeraConsulta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }
+    
+    Código frmPrimerConsulta
+    modelo.addColumn("ID_Lider");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Primer Apellido");
+        modelo.addColumn("Ciudad Residencia");
+        jtbDatos.setModel(modelo);
+        
+        PrimeraConsulta primer_consulta = new PrimeraConsulta();
+        primer_consulta.primerconsulta(modelo);
+        
+        
+Segunda Consulta
+public void segundaconsulta(DefaultTableModel modelo){
+        
+        Proyecto proyecto = new Proyecto();
+        
+        try {
+            Conexion cc = new Conexion();
+            Connection cn = cc.conectar();
+            
+            Statement st = cn.createStatement();
+            
+            ResultSet rs = st.executeQuery("SELECT ID_Proyecto, Constructora, Numero_Habitaciones, Ciudad FROM Proyecto WHERE Clasificacion='Casa Campestre' AND CIUDAD IN('Santa Marta', 'Cartagena', 'Barranquilla')");
+            
+            
+            while(rs.next()){
+                proyecto.setId_proyecto(rs.getInt(1));
+                proyecto.setConstructora(rs.getString(2));
+                proyecto.setNumero_habitaciones(rs.getInt(3));
+                proyecto.setCiudad(rs.getString(4));
+                
+             modelo.addRow(new Object[]{proyecto.getId_proyecto(), proyecto.getConstructora(), proyecto.getNumero_habitaciones(),proyecto.getCiudad()});
+ 
+            }
+            
+            
+            rs.close();
+            cn.close();
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(SegundaConsulta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    Código frmSegundoInforme
+        modelo.addColumn("ID_Proyecto");
+        modelo.addColumn("Constructora");
+        modelo.addColumn("Número Habitaciones");
+        modelo.addColumn("Ciudad");
+        tblDatos.setModel(modelo);
+        
+        SegundaConsulta segunda_consulta = new SegundaConsulta();
+        
+        segunda_consulta.segundaconsulta(modelo);
+        
+       
+       codigo tercera consulta
+ public void terceraconsulta(DefaultTableModel modelo){
+        
+        Cliente cliente = new Cliente();
+        
+        try {
+            Conexion cc = new Conexion();
+            Connection cn = cc.conectar();
+            
+            Statement st = cn.createStatement();
+            
+            ResultSet rs = st.executeQuery("SELECT ID_Compra, p.Constructora, p.Banco_Vinculado FROM Compra c JOIN Proyecto p ON (c.ID_Proyecto=p.ID_Proyecto) WHERE Proveedor = 'Homecenter' AND p.Ciudad='Salento'");
+            
+            
+            
+            while(rs.next()){
+                cliente.setId_compra(rs.getInt(1));
+                cliente.setConstructora(rs.getString(2));
+                cliente.setBanco(rs.getString(3));
+             modelo.addRow(new Object[]{cliente.getId_compra(),cliente.getConstructora(),cliente.getBanco()});
+ 
+            }
+            
+            
+            rs.close();
+            cn.close();
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(TerceraConsulta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }
